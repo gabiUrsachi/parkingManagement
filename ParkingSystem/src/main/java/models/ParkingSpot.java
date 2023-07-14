@@ -1,6 +1,7 @@
 package models;
 
 import utils.Category;
+import utils.Type;
 
 import java.util.Objects;
 
@@ -10,10 +11,17 @@ import java.util.Objects;
 public class ParkingSpot {
     private String spotNumber;
     private Category size;
+    private Type type = Type.NON_ELECTRICAL;
 
     public ParkingSpot(String spotNumber, Category size) {
         this.spotNumber = spotNumber;
         this.size = size;
+    }
+
+    public ParkingSpot(String spotNumber, Category size, Type type) {
+        this.spotNumber = spotNumber;
+        this.size = size;
+        this.type = type;
     }
 
     public String getSpotNumber() {
@@ -30,6 +38,14 @@ public class ParkingSpot {
 
     public void setSize(Category size) {
         this.size = size;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
