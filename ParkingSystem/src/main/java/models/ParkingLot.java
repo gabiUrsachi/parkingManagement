@@ -2,6 +2,7 @@ package models;
 
 import utils.Category;
 import utils.State;
+import utils.Type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class ParkingLot {
      * @return available parking spot if exists, or else null
      */
     public ParkingSpot occupySpot(Category category) {
-        ParkingSpot availableSpot = getFreeSpot(category);
+        ParkingSpot availableSpot = getFreeSpot(category, Type.NON_ELECTRICAL);
 
         // if free parking spot exists, then it is used for the given category
         if(availableSpot != null){
@@ -28,6 +29,24 @@ public class ParkingLot {
         }
 
         return availableSpot;
+    }
+
+    /**
+     * It returns available parking spot for a given category and type
+     *
+     * @param category necessary spot size
+     * @param type necessary spot type
+     * @return available parking spot if exists, or else null
+     */
+    public ParkingSpot occupySpot(Category category, Type type) {
+        ParkingSpot availableSpot = getFreeSpot(category, type);
+
+        if(availableSpot != null){
+            this.availableSpots.put(availableSpot, State.OCCUPIED);
+        }
+
+        return availableSpot;
+
     }
 
     /**
@@ -47,10 +66,11 @@ public class ParkingLot {
         this.availableSpots = availableSpots;
     }
 
-    private ParkingSpot getFreeSpot(Category category){
+    private ParkingSpot getFreeSpot(Category category, Type type){
         Optional<Map.Entry<ParkingSpot, State>> optionalAvailableSpot =  this.availableSpots.entrySet().stream()
                 .filter(parkingSpotEntry ->
                         parkingSpotEntry.getKey().getSize().equals(category) &&
+                                parkingSpotEntry.getKey().getType().equals(type) &&
                                 parkingSpotEntry.getValue().equals(State.FREE)
                 )
                 .findFirst();

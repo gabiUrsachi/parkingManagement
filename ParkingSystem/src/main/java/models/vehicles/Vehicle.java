@@ -29,6 +29,10 @@ public abstract class Vehicle {
         return type;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     public User getOwner() {
         return owner;
     }

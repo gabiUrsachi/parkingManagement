@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import services.ParkingSystem;
 import utils.Category;
 import utils.State;
+import utils.Type;
 import utils.UserRole;
 
 import java.util.HashMap;
@@ -28,6 +29,7 @@ class ParkingSystemTest {
         availableSpots.put(new ParkingSpot("B12", Category.MEDIUM), State.FREE);
         availableSpots.put(new ParkingSpot("C12", Category.SMALL), State.FREE);
         availableSpots.put(new ParkingSpot("D12", Category.LARGE), State.FREE);
+        availableSpots.put(new ParkingSpot("E12", Category.LARGE, Type.ELECTRICAL), State.FREE);
 
         parkingLot.setAvailableSpots(availableSpots);
         parkingSystem = new ParkingSystem(parkingLot);
@@ -37,6 +39,7 @@ class ParkingSystemTest {
     @Test
     void regularUserSuccessfullyParksSmallVehicle() {
         vehicle = createVehicle(Category.SMALL);
+        vehicle.setType(Type.ELECTRICAL);
         ParkingSpot parkingSpot = parkingSystem.park(vehicle);
 
         Assertions.assertEquals("C12", parkingSpot.getSpotNumber());
@@ -67,6 +70,21 @@ class ParkingSystemTest {
 
         Assertions.assertEquals("C12", parkingSpot1.getSpotNumber());
         Assertions.assertEquals("B12", parkingSpot2.getSpotNumber());
+    }
+
+    @Test
+    void vipUserSuccessfullyParksElectricalSmallVehicle() {
+        user.setRole(UserRole.VIP);
+
+        vehicle = createVehicle(Category.SMALL);
+        vehicle.setType(Type.ELECTRICAL);
+        ParkingSpot parkingSpot1 = parkingSystem.park(vehicle);
+
+        vehicle = createVehicle(Category.SMALL);
+        ParkingSpot parkingSpot2 = parkingSystem.park(vehicle);
+
+        Assertions.assertEquals("E12", parkingSpot1.getSpotNumber());
+        Assertions.assertEquals("C12", parkingSpot2.getSpotNumber());
     }
 
     @Test
