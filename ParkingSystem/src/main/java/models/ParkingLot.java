@@ -20,23 +20,14 @@ public class ParkingLot {
      * @return available parking spot if exists, or else null
      */
     public ParkingSpot occupySpot(Category category) {
-        // get free parking spot by category
-        Optional<Map.Entry<ParkingSpot, State>> optionalAvailableSpot = this.availableSpots.entrySet().stream()
-                .filter(parkingSpotEntry ->
-                        parkingSpotEntry.getKey().getSize().equals(category) &&
-                        parkingSpotEntry.getValue().equals(State.FREE)
-                )
-                .findFirst();
+        ParkingSpot availableSpot = getFreeSpot(category);
 
         // if free parking spot exists, then it is used for the given category
-        if (optionalAvailableSpot.isPresent()) {
-            ParkingSpot availableSpot = optionalAvailableSpot.get().getKey();
+        if(availableSpot != null){
             this.availableSpots.put(availableSpot, State.OCCUPIED);
-
-            return availableSpot;
         }
 
-        return null;
+        return availableSpot;
     }
 
     /**
@@ -54,5 +45,16 @@ public class ParkingLot {
 
     public void setAvailableSpots(HashMap<ParkingSpot, State> availableSpots) {
         this.availableSpots = availableSpots;
+    }
+
+    private ParkingSpot getFreeSpot(Category category){
+        Optional<Map.Entry<ParkingSpot, State>> optionalAvailableSpot =  this.availableSpots.entrySet().stream()
+                .filter(parkingSpotEntry ->
+                        parkingSpotEntry.getKey().getSize().equals(category) &&
+                                parkingSpotEntry.getValue().equals(State.FREE)
+                )
+                .findFirst();
+
+        return optionalAvailableSpot.map(Map.Entry::getKey).orElse(null);
     }
 }
