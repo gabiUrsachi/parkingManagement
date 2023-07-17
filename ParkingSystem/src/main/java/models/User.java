@@ -2,6 +2,9 @@ package models;
 
 import utils.UserRole;
 
+/**
+ * This class is used to maintain details about vehicle owners
+ */
 public class User {
     private String name;
     private UserRole role;
