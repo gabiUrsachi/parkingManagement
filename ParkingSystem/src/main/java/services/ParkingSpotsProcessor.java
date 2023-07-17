@@ -65,4 +65,14 @@ public class ParkingSpotsProcessor {
     public static boolean foundFreeSpots(List<ParkingSpot> freeParkingSpots) {
         return !freeParkingSpots.isEmpty();
     }
+
+    /**
+     * It returns the first element of a list containing parking spots
+     *
+     * @param parkingSpots all list elements
+     * @return the first element of the given list
+     */
+    public static ParkingSpot getFirstParkingSpot(List<ParkingSpot> parkingSpots) {
+        return parkingSpots.get(0);
+    }
 }

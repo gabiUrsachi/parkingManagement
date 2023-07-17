@@ -34,9 +34,9 @@ public class RegularParkingStrategy extends ParkingStrategy {
                 List<ParkingSpot> freeParkingSpotsByType = ParkingSpotsProcessor.findFreeParkingSpotsByType(freeParkingSpotsByCategory, vehicle.getType());
 
                 if (ParkingSpotsProcessor.foundFreeSpots(freeParkingSpotsByType)) {
-                    resultedSpot = freeParkingSpotsByType.get(0);
+                    resultedSpot = ParkingSpotsProcessor.getFirstParkingSpot(freeParkingSpotsByType);
                 } else {
-                    resultedSpot = freeParkingSpotsByCategory.get(0);
+                    resultedSpot = ParkingSpotsProcessor.getFirstParkingSpot(freeParkingSpotsByCategory);
                 }
 
                 super.occupySpot(resultedSpot, vehicle);
